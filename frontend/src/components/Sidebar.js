@@ -1,5 +1,4 @@
 import React, { useState, useContext, createContext, useEffect } from 'react';
-//import { ChevronLast, ChevronFirst } from "lucide-react";
 import icons from '../assets/icons';
 import '../styles/Dashboard/dashboardStyle.css';
 import { Link, useLocation } from 'react-router-dom';
@@ -168,22 +167,6 @@ export const Sidebar = () => {
                                 onClick={() => setActiveButton('crypto')}
                             />
                         </Link>
-                        {/*<Link to='/stocks'>
-                            <SidebarItem
-                                icon={<img src={activeButton === 'stocks' ? icons.chartLight : icons.chart} alt='img' />}
-                                text="Stocks"
-                                active={activeButton === 'stocks'}
-                                onClick={() => setActiveButton('stocks')}
-                            />
-                        </Link>
-                        <Link to='/crypto'>
-                            <SidebarItem
-                                icon={<img src={activeButton === 'crypto' ? icons.bitcoinLight : icons.bitcoin} alt='img' />}
-                                text="Crypto"
-                                active={activeButton === 'crypto'}
-                                onClick={() => setActiveButton('crypto')}
-                            />
-                        </Link>*/}
                         <Link to='/inbox'>
                             <SidebarItem
                                 icon={<img src={activeButton === 'inbox' ? icons.coinLight : icons.coin} alt='img' />}

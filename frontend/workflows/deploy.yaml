@@ -1,0 +1,43 @@
+name: Deploy to DigitalOcean
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install sshpass
+      run: sudo apt-get install -y sshpass
+
+    - name: Deploy Frontend to DigitalOcean
+      env:
+        DO_IP: ${{ secrets.FRONTEND_DO_IP }}
+        SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+      run: |
+        tar czf frontend.tar.gz .
+        sshpass -p "$SSH_PASSWORD" scp frontend.tar.gz root@$DO_IP:/tmp/
+        sshpass -p "$SSH_PASSWORD" ssh root@$DO_IP "cd /tmp && tar xzf frontend.tar.gz && docker-compose up -d frontend"
+
+    - name: Deploy Backend to DigitalOcean
+      env:
+        DO_IP: ${{ secrets.BACKEND_DO_IP }}
+        SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+      run: |
+        tar czf backend.tar.gz ./backend
+        sshpass -p "$SSH_PASSWORD" scp backend.tar.gz root@$DO_IP:/tmp/
+        sshpass -p "$SSH_PASSWORD" ssh root@$DO_IP "cd /tmp && tar xzf backend.tar.gz && docker-compose up -d backend"
+
+    - name: Deploy Mongo to DigitalOcean
+      env:
+        DO_IP: ${{ secrets.MONGO_DO_IP }}
+        SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+      run: |
+        # Since MongoDB is an image, we're just restarting the service
+        sshpass -p "$SSH_PASSWORD" ssh root@$DO_IP "docker-compose up -d mongo"

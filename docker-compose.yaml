@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  mongoDb:
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+    volumes:
+      - db-volume:/data/db
+    ports:
+      - "27017:27017"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - /app/node_modules
+      - ./backend:/app
+    environment:
+      - MONGODB_URI=mongodb://root:example@mongoDb:27017/dockerizingMernApplicationTestDB?authSource=admin
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - mongoDb
+    restart: always
+    ports:
+      - "5000:5000" 
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - /app/node_modules
+      - ./frontend:/app
+    environment:
+      - REACT_APP_BACKEND_URL=http://backend:5000/api 
+      - CHOKIDAR_USEPOLLING=true
+    restart: always
+    ports:
+      - "3000:3000" 
+
+volumes:
+  db-volume:

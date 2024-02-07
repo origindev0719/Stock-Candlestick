@@ -1,0 +1,14 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - MONGODB_URI=mongodb://root:example@137.184.176.95:27017/dockerizingMernApplicationTestDB?authSource=admin
+      - CHOKIDAR_USEPOLLING=true
+    restart: always
+    ports:
+      - "5000:5000"
+
+#MONGODB_URI=mongodb+srv://andreonward:CPFn4cj0yy5pJRtP@cluster0.mnsvoey.mongodb.net/

@@ -74,7 +74,6 @@ export const Sidebar = () => {
         // Only collapse if not on mobile
         if (!isMobile) {
             setExpanded(false);
-            console.log('success')
         }
     };
 

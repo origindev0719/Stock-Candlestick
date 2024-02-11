@@ -159,14 +159,14 @@ export const Sidebar = () => {
                                 onClick={() => setActiveButton('stocks')}
                             />
                         </Link>
-                        <Link to='/crypto'>
+                        {/* <Link to='/crypto'> 
                             <SidebarItem
                                 icon={<img src={activeButton === 'crypto' ? icons.bitcoinLight : icons.bitcoin} alt='img' />}
                                 text="Cryptos"
                                 active={activeButton === 'crypto'}
                                 onClick={() => setActiveButton('crypto')}
                             />
-                        </Link>
+                        </Link>*/}
                         <Link to='/inbox'>
                             <SidebarItem
                                 icon={<img src={activeButton === 'inbox' ? icons.coinLight : icons.coin} alt='img' />}
